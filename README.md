@@ -13,7 +13,6 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 </div>
 
----
 
 ## Overview
 We propose a conceptually novel, efficient, and fully convolutional framework for real-time instance segmentation. Previously, most instance segmentation methods heavily rely on object detection and perform mask prediction based on bounding boxes or dense centers. In contrast, we propose a sparse set of instance activation maps, as a new object representation, to highlight informative regions for each foreground object. Then instance-level features are obtained by aggregating features according to the highlighted regions for recognition and segmentation. Moreover, based on bipartite matching, the instance activation maps can predict objects in a one-to-one style, thus avoiding non-maximum suppression (NMS) in post-processing. Owing to the simple yet effective designs with instance activation maps, SparseInst has extremely fast inference speed and achieves 40 FPS and 37.9 AP on the COCO benchmark, which significantly outperforms the counterparts in terms of speed and accuracy.
@@ -23,7 +22,7 @@ We propose a conceptually novel, efficient, and fully convolutional framework fo
 </center>
 
 
-### Highlights 
+## Highlights 
 
 * SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively localize objects.
 * SparseInst is a simple and fully convolutional framework without attention, iteratively structures, or non-maximum suppression (NMS). 
@@ -107,7 +106,7 @@ python train_net.py --config-file configs/sparse_inst_r50_giam.yaml --num-gpus 8
 ```bash
 python test_net.py --config-file <CONFIG> MODEL.WEIGHTS <MODEL-PATH> INPUT.MIN_SIZE_TEST 512
 # example:
-python test_net.py --config-file configs/sparse_inst_r50_giam.yaml  --eval MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
+python test_net.py --config-file configs/sparse_inst_r50_giam.yaml MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
 ```
 
 **Note:** 
