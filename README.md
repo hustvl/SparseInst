@@ -4,7 +4,7 @@
 </br>
 by
 <br>
-Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#8224;</span></sup>, Shaoyu Chen, Wenqiang Zhang, Qian Zhang, Chang Huang, Zhaoxiang Zhang, Wenyu Liu
+Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#8224;</span></sup>, Shaoyu Chen, Wenqiang Zhang, <a href="https://scholar.google.com/citations?user=pCY-bikAAAAJ&hl=zh-CN">Qian Zhang</a>, <a href="https://scholar.google.com/citations?user=IyyEKyIAAAAJ&hl=zh-CN">Chang Huang</a>, <a href="https://zhaoxiangzhang.net/">Zhaoxiang Zhang</a>, <a href="http://eic.hust.edu.cn/professor/liuwenyu/"> Wenyu Liu</a>
 </br>
 (<span>&#8224;</span>: corresponding author)
 
@@ -14,26 +14,40 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 </div>
 
 
+
+
+## Highlights 
+
+<div align="center">
+<img src="resources/animate.gif">
+</div>
+
+* SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively highlight informative regions of objects for recognition.
+* SparseInst is a simple, efficient, and fully convolutional framework without non-maximum suppression (NMS) or sorting, and easy to deploy!
+* SparseInst achieves good trade-off between speed and accuracy, *e.g.*, 37.9 AP and 40 FPS with 608x input.
+
+
+
+## Updates
+
+`This project is under active development, please stay tuned!` &#9749;
+
+* [2022-3-22]: We have released the code and models for SparseInst! 
+ 
+
+
+
 ## Overview
-We propose a conceptually novel, efficient, and fully convolutional framework for real-time instance segmentation. Previously, most instance segmentation methods heavily rely on object detection and perform mask prediction based on bounding boxes or dense centers. In contrast, we propose a sparse set of instance activation maps, as a new object representation, to highlight informative regions for each foreground object. Then instance-level features are obtained by aggregating features according to the highlighted regions for recognition and segmentation. Moreover, based on bipartite matching, the instance activation maps can predict objects in a one-to-one style, thus avoiding non-maximum suppression (NMS) in post-processing. Owing to the simple yet effective designs with instance activation maps, SparseInst has extremely fast inference speed and achieves 40 FPS and 37.9 AP on the COCO benchmark, which significantly outperforms the counterparts in terms of speed and accuracy.
+**SparseInst** is a conceptually novel, efficient, and fully convolutional framework for real-time instance segmentation.
+In contrast to region boxes or anchors (centers), SparseInst adopts a sparse set of **instance activation maps** as object representation, to highlight informative regions for each foreground objects.
+Then it obtains the instance-level features by aggregating features according to the highlighted regions for recognition and segmentation.
+The bipartite matching compels the instance activation maps to predict objects in a one-to-one style, thus avoiding non-maximum suppression (NMS) in post-processing. Owing to the simple yet effective designs with instance activation maps, SparseInst has extremely fast inference speed and achieves **40 FPS** and **37.9 AP** on COCO (NVIDIA 2080Ti), significantly outperforms the counter parts in terms of speed and accuracy.
+
 
 <center>
 <img src="./resources/sparseinst.png">
 </center>
 
-
-## Highlights 
-
-* SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively localize objects.
-* SparseInst is a simple and fully convolutional framework without attention, iteratively structures, or non-maximum suppression (NMS). 
-* SparseInst achieves good trade-off between speed and accuracy.
-
-## Updates
-
-*This project is under active development, please stay tuned!*
-
-* [2022-3-20] We have released the code and models for SparseInst! 
- 
 
 ## Models
 
@@ -62,7 +76,7 @@ All models are trained on MS-COCO *train2017*.
 
 
 **Note:** 
-* *We will continue adding more models* including more efficient convolutional networks, vision transformers, and larger models for high performance and high speed, please stay tuned &#128513;!
+* **We will continue adding more models** including more efficient convolutional networks, vision transformers, and larger models for high performance and high speed, please stay tuned &#128513;!
 * Inference speeds are measured on one NVIDIA 2080Ti.
 * We haven't adopt TensorRT or other tools to accelerate the inference of SparseInst. However, we are working on it now and will provide support for ONNX, TensorRT, and [Blade](https://github.com/alibaba/BladeDISC) as soon as possible!
 * AP denotes AP evaluated on MS-COCO *test-dev2017*
@@ -149,4 +163,4 @@ If you find SparseInst is useful in your research or applications, please consid
 
 ## License
 
-SparseInst is released under the [MIT Licence](LICENCE).
+SparseInst is released under the [MIT Licence](LICENSE).
