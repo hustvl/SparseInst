@@ -90,8 +90,6 @@ class InstanceContextEncoder(nn.Module):
         return features
 
 
-
-
 def build_sparse_inst_encoder(cfg, input_shape):
     name = cfg.MODEL.SPARSE_INST.ENCODER.NAME
     return SPARSE_INST_ENCODER_REGISTRY.get(name)(cfg, input_shape)

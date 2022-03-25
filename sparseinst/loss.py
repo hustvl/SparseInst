@@ -47,7 +47,7 @@ def dice_loss(inputs, targets, reduction='sum'):
 
 @SPARSE_INST_CRITERION_REGISTRY.register()
 class SparseInstCriterion(nn.Module):
-    # This part is partially derivated from: 
+    # This part is partially derivated from: https://github.com/facebookresearch/detr/blob/main/models/detr.py
 
     def __init__(self, cfg, matcher):
         super().__init__()

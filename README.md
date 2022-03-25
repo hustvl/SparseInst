@@ -9,7 +9,7 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 (<span>&#8224;</span>: corresponding author)
 
 <!-- <div><a href="">[Project Page]</a>(comming soon)</div>  -->
-<div><a href="">[Paper]</a></div>
+<div><a href="https://arxiv.org/abs/2203.12827">[Paper]</a></div>
 
 </div>
 
@@ -32,7 +32,7 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* [2022-3-22]: We have released the code and models for SparseInst! 
+* [2022-3-25]: We have released the code and models for SparseInst! 
  
 
 
@@ -59,7 +59,7 @@ All models are trained on MS-COCO *train2017*.
 | model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------  | :---: | :-: |:--------------: | :--: | :-: | :-----: |
 | [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | - | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
-| [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | - | - | - | [model]()|
+| [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | - | 42.6 | [model]()|
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | - | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50]() | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN]() | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
@@ -78,11 +78,12 @@ All models are trained on MS-COCO *train2017*.
 **Note:** 
 * **We will continue adding more models** including more efficient convolutional networks, vision transformers, and larger models for high performance and high speed, please stay tuned &#128513;!
 * Inference speeds are measured on one NVIDIA 2080Ti.
-* We haven't adopt TensorRT or other tools to accelerate the inference of SparseInst. However, we are working on it now and will provide support for ONNX, TensorRT, and [Blade](https://github.com/alibaba/BladeDISC) as soon as possible!
+* We haven't adopt TensorRT or other tools to accelerate the inference of SparseInst. However, we are working on it now and will provide support for ONNX, TensorRT, MindSpore, [Blade](https://github.com/alibaba/BladeDISC), and other frameworks as soon as possible!
 * AP denotes AP evaluated on MS-COCO *test-dev2017*
 * *input* denotes the shorter side of the input, *e.g.*, 512x864 and 608x864, we keep the aspect ratio of the input and the longer side is no more than 864.
 * The inference speed might slightly change on different machines (2080 Ti) and different versions of detectron (we mainly use [v0.3](https://github.com/facebookresearch/detectron2/tree/v0.3)). If the change is sharp, e.g., > 5ms, please feel free to contact us.
 * For `aug` (augmentation), we only adopt the simple random crop (crop size: [384, 600]) provided by detectron2.
+* We adopt `weight decay=5e-2` as default setting, which is slightly different from the original paper.
 
 ## Installation and Prerequisites
 

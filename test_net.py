@@ -13,9 +13,6 @@ from detectron2.engine import default_argument_parser, default_setup
 from detectron2.data import build_detection_test_loader
 from detectron2.evaluation import COCOEvaluator, print_csv_format
 
-# from sparseinst.decoder import build_sparse_inst_decoder
-# from sparseinst.encoder import build_sparse_inst_encoder
-# from sparseinst.config import add_sparse_inst_config
 from sparseinst import build_sparse_inst_encoder, build_sparse_inst_decoder, add_sparse_inst_config
 from sparseinst import COCOMaskEvaluator
 

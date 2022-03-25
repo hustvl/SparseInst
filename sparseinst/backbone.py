@@ -1,6 +1,3 @@
-#
-#  Copyright (c) Tianheng Cheng and its affiliates. All Rights Reserved
-
 import math
 import torch.nn as nn
 from timm.models.resnet import BasicBlock, Bottleneck
