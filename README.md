@@ -21,11 +21,12 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 <div align="center">
 <img src="resources/animate.gif">
 </div>
+	
 
 * SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively highlight informative regions of objects for recognition.
 * SparseInst is a simple, efficient, and fully convolutional framework without non-maximum suppression (NMS) or sorting, and easy to deploy!
 * SparseInst achieves good trade-off between speed and accuracy, *e.g.*, 37.9 AP and 40 FPS with 608x input.
-
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/sparse-instance-activation-for-real-time/real-time-instance-segmentation-on-mscoco)](https://paperswithcode.com/sota/real-time-instance-segmentation-on-mscoco?p=sparse-instance-activation-for-real-time)
 
 
 ## Updates
