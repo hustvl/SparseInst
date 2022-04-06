@@ -101,7 +101,7 @@ if __name__ == "__main__":
                         len(predictions["instances"]))
                     if "instances" in predictions
                     else "finished",
-                    time.time() -,
+                    time.time() - start_time,
                 )
             )
 
