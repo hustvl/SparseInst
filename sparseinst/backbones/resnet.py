@@ -1,3 +1,6 @@
+#
+#  Copyright (c) Tianheng Cheng and its affiliates. All Rights Reserved
+
 import math
 import torch.nn as nn
 from timm.models.resnet import BasicBlock, Bottleneck
@@ -5,7 +8,7 @@ from timm.models.layers import DropBlock2d, DropPath, AvgPool2dSame
 
 from detectron2.layers import ShapeSpec, FrozenBatchNorm2d
 from detectron2.modeling import Backbone, BACKBONE_REGISTRY
-from detectron2.layers import NaiveSyncBatchNorm,DeformConv
+from detectron2.layers import NaiveSyncBatchNorm, DeformConv
 
 
 def get_padding(kernel_size, stride, dilation=1):

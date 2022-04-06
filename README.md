@@ -15,28 +15,27 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 
 
-
 ## Highlights 
 
 <div align="center">
 <img src="resources/animate.gif">
 </div>
-	
 
 * SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively highlight informative regions of objects for recognition.
 * SparseInst is a simple, efficient, and fully convolutional framework without non-maximum suppression (NMS) or sorting, and easy to deploy!
 * SparseInst achieves good trade-off between speed and accuracy, *e.g.*, 37.9 AP and 40 FPS with 608x input.
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/sparse-instance-activation-for-real-time/real-time-instance-segmentation-on-mscoco)](https://paperswithcode.com/sota/real-time-instance-segmentation-on-mscoco?p=sparse-instance-activation-for-real-time)
+
 
 
 ## Updates
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* [2022-3-25]: We have released the code and models for SparseInst! 
+* &#127381; **[2022-4-6]:** We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122) (Evaluation results and trained models will be updated within days). We are still supporting more backbones.
+
+* **[2022-3-25]:** We have released the code and models for SparseInst! 
+
  
-
-
 
 ## Overview
 **SparseInst** is a conceptually novel, efficient, and fully convolutional framework for real-time instance segmentation.
@@ -59,21 +58,35 @@ All models are trained on MS-COCO *train2017*.
 
 | model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------  | :---: | :-: |:--------------: | :--: | :-: | :-----: |
-| [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | - | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
-| [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | - | 42.6 | [model]()|
-| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | - | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
+| [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | 33.2 | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
+| [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | 34.5 | 42.6 | [model](https://drive.google.com/file/d/1fjPFy35X2iJu3tYwVdAq4Bel82PfH5kx/view?usp=sharing)|
+| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50]() | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN]() | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_giam_aug.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003;| 35.6 | 36.1 | 42.8| [model](https://drive.google.com/file/d/1dlamg7ych_BdWpPUCuiBXbwE0SXpsfGx/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003; | 37.4 | 37.9 | 40.0  | [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)|
-| [SparseInst (G-IAM)](sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
+| [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
 
-
-<!-- #### Larger models
+<!-- #### SparseInst with other backbones
 
 | model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
-| SparseInst (G-IAM) | [R-101]() | 640 |                   |      |   | [model]()| -->
+| SparseInst (G-IAM) | [VoVNet]() | 640 | - | - | - | [model]() |
+| SparseInst (G-IAM) | [CSPDarkNet]() | 640 | - | -| - | [model]() |  -->
+
+#### Larger models
+
+| model | backbone | input | aug  | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :---: | :--------------: | :--: | :-: | :-----: |
+| [SparseInst (G-IAM)](configs/sparse_inst_r101_giam.yaml) | [R-101]() | 640 | &#x2718; | 34.9 | 35.5 | - | [model](https://drive.google.com/file/d/1EZZck-UNfom652iyDhdaGYbxS0MrO__z/view?usp=sharing)|
+| [SparseInst (G-IAM)](configs/sparse_inst_r101_dcn_giam.yaml) | [R-101-DCN]() | 640 | &#x2718; | 36.4 | 36.9 | - | [model](https://drive.google.com/file/d/1shkFvyBmDlWRxl1ActD6VfZJTJYBGBjv/view?usp=sharing) |
+
+<!-- #### SparseInst with Vision Transformers
+
+| model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
+| SparseInst (G-IAM) | [PVTv2-B1]() | 640 | - | - | - | [model]() |
+| SparseInst (G-IAM) | [PVTv2-B2-li]() | 640 | - | - | - | [model]() | -->
 
 
 **Note:** 
@@ -130,6 +143,31 @@ python test_net.py --config-file configs/sparse_inst_r50_giam.yaml MODEL.WEIGHTS
 * The inference time consists of the *pure forward time* and the *post-processing time*. While the evaluation processing, data loading, and pre-processing for wrappers (*e.g.*, ImageList) are not included.
 * `COCOMaskEvaluator` is modified from [`COCOEvaluator`](https://github.com/facebookresearch/detectron2/blob/main/detectron2/evaluation/coco_evaluation.py) for evaluating mask-only results.
 
+### Visualizing Images with SparseInst
+
+To inference or visualize the segmentation results on your images, you can run:
+
+```bash
+python demo.py --config-file <CONFIG> --input <IMAGE-PATH> --output results --opts MODEL.WEIGHTS <MODEL-PATH>
+# example
+python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/coco/val2017/* --output results --opt MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
+```
+* Besides, the `demo.py` also supports inference on video (`--video-input`), camera (`--webcam`).
+* `--opts` supports modifications to the config-file, *e.g.,* `INPUT.MIN_SIZE_TEST 512`.
+* `--input` can be single image or a folder of images, *e.g.,* `xxx/*`.
+* If `--output` is not specified, a popup window will show the visualization results for each image.
+* Lowering the `confidence-threshold` will show more instances but with more false positives.
+
+<div>
+<table>
+<td><img src="resources/figures/000000006471.jpg" height=200></td>
+<td><img src="resources/figures/000000014439.jpg" height=200></td>
+</table>
+<span><p align="center">Visualization results (SparseInst-R50-GIAM)</p></span>
+</div>
+
+
+
 
 ### Training SparseInst
 
@@ -165,4 +203,4 @@ If you find SparseInst is useful in your research or applications, please consid
 
 ## License
 
-SparseInst is released under the [MIT Licence](LICENSE).
+SparseInst is released under the [MIT Licence](LICENCE).
