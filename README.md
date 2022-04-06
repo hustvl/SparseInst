@@ -160,7 +160,7 @@ python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/
 * Lowering the `confidence-threshold` will show more instances but with more false positives.
 
 <div>
-<table>
+<table align="center">
 <td><img src="resources/figures/000000006471.jpg" height=200></td>
 <td><img src="resources/figures/000000014439.jpg" height=200></td>
 </table>
