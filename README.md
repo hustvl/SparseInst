@@ -19,20 +19,27 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 <div align="center">
 <img src="resources/animate.gif">
+<br>
+<br>
+<div>
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/sparse-instance-activation-for-real-time/real-time-instance-segmentation-on-mscoco)](https://paperswithcode.com/sota/real-time-instance-segmentation-on-mscoco?p=sparse-instance-activation-for-real-time)
 </div>
+</div>
+
+
 
 * SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively highlight informative regions of objects for recognition.
 * SparseInst is a simple, efficient, and fully convolutional framework without non-maximum suppression (NMS) or sorting, and easy to deploy!
 * SparseInst achieves good trade-off between speed and accuracy, *e.g.*, 37.9 AP and 40 FPS with 608x input.
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/sparse-instance-activation-for-real-time/real-time-instance-segmentation-on-mscoco)](https://paperswithcode.com/sota/real-time-instance-segmentation-on-mscoco?p=sparse-instance-activation-for-real-time)
 
 
 ## Updates
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* &#127381; **[2022-4-6]:** We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122) (Evaluation results and trained models will be updated within days). We are still supporting more backbones.
+* &#127381; **[2022-4-7]:** We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122). We are still supporting more backbones.
 
 * **[2022-3-25]:** We have released the code and models for SparseInst! 
 
@@ -82,23 +89,25 @@ All models are trained on MS-COCO *train2017*.
 | [SparseInst (G-IAM)](configs/sparse_inst_r101_giam.yaml) | [R-101]() | 640 | &#x2718; | 34.9 | 35.5 | - | [model](https://drive.google.com/file/d/1EZZck-UNfom652iyDhdaGYbxS0MrO__z/view?usp=sharing)|
 | [SparseInst (G-IAM)](configs/sparse_inst_r101_dcn_giam.yaml) | [R-101-DCN]() | 640 | &#x2718; | 36.4 | 36.9 | - | [model](https://drive.google.com/file/d/1shkFvyBmDlWRxl1ActD6VfZJTJYBGBjv/view?usp=sharing) |
 
-<!-- #### SparseInst with Vision Transformers
+#### SparseInst with Vision Transformers
 
-| model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
-| :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
-| SparseInst (G-IAM) | [PVTv2-B1]() | 640 | - | - | - | [model]() |
-| SparseInst (G-IAM) | [PVTv2-B2-li]() | 640 | - | - | - | [model]() | -->
+| model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :---: | :--------------: | :--: | :-: | :-----: |
+| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b1_giam.yaml) | [PVTv2-B1]() | 640 |  &#x2718; | 35.3 | 36.0 | 33.5 (48.9<sup>&#x021A1;</sup>)| [model](https://drive.google.com/file/d/13l9JgTz3sF6j3vSVHOOhAYJnCf-QuNe_/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b2_li_giam.yaml) | [PVTv2-B2-li]() | 640 |  &#x2718; | 37.2 | 38.2 | 26.5 | [model](https://drive.google.com/file/d/1DFxQnFg_UL6kmMoNC4StUKo79RXVHyNF/view?usp=sharing) |
+<sup>&#x021A1;</sup>: measured on RTX 3090.
 
 
 **Note:** 
 * **We will continue adding more models** including more efficient convolutional networks, vision transformers, and larger models for high performance and high speed, please stay tuned &#128513;!
-* Inference speeds are measured on one NVIDIA 2080Ti.
+* Inference speeds are measured on one NVIDIA 2080Ti unless specified.
 * We haven't adopt TensorRT or other tools to accelerate the inference of SparseInst. However, we are working on it now and will provide support for ONNX, TensorRT, MindSpore, [Blade](https://github.com/alibaba/BladeDISC), and other frameworks as soon as possible!
 * AP denotes AP evaluated on MS-COCO *test-dev2017*
 * *input* denotes the shorter side of the input, *e.g.*, 512x864 and 608x864, we keep the aspect ratio of the input and the longer side is no more than 864.
 * The inference speed might slightly change on different machines (2080 Ti) and different versions of detectron (we mainly use [v0.3](https://github.com/facebookresearch/detectron2/tree/v0.3)). If the change is sharp, e.g., > 5ms, please feel free to contact us.
 * For `aug` (augmentation), we only adopt the simple random crop (crop size: [384, 600]) provided by detectron2.
 * We adopt `weight decay=5e-2` as default setting, which is slightly different from the original paper.
+* **[Weights on BaiduPan]**: we also provide trained models on BaiduPan: [ShareLink](https://pan.baidu.com/s/1tot7Wcoi4J1xh8ZS7VikZg) (password: lkdo).
 
 ## Installation and Prerequisites
 
@@ -153,7 +162,7 @@ python demo.py --config-file <CONFIG> --input <IMAGE-PATH> --output results --op
 # example
 python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/coco/val2017/* --output results --opt MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
 ```
-* Besides, the `demo.py` also supports inference on video (`--video-input`), camera (`--webcam`).
+* Besides, the `demo.py` also supports inference on video (`--video-input`), camera (`--webcam`). For inference on video, you might refer to [issue #9](https://github.com/hustvl/SparseInst/issues/9) to avoid someerrors.
 * `--opts` supports modifications to the config-file, *e.g.,* `INPUT.MIN_SIZE_TEST 512`.
 * `--input` can be single image or a folder of images, *e.g.,* `xxx/*`.
 * If `--output` is not specified, a popup window will show the visualization results for each image.
