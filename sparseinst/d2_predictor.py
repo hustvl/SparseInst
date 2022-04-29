@@ -47,8 +47,6 @@ class VisualizationDemo(object):
         """
         vis_output = None
         predictions = self.predictor(image)
-        # Convert image from OpenCV BGR format to Matplotlib RGB format.
-#         image = image[:, :, ::-1]         # OneNet uses RGB input as default
         visualizer = Visualizer(image, self.metadata,
                                 instance_mode=self.instance_mode)
         if "panoptic_seg" in predictions:

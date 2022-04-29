@@ -39,7 +39,9 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* &#127381; **[2022-4-7]:** We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122). We are still supporting more backbones.
+* **[2022-4-8]:** We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
+
+* **[2022-4-7]:** We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122). We are still supporting more backbones.
 
 * **[2022-3-25]:** We have released the code and models for SparseInst! 
 

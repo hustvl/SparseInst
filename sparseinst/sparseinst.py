@@ -151,7 +151,8 @@ class SparseInst(nn.Module):
                 mask_pred_per_image, size=ori_shape, mode='bilinear', align_corners=False).squeeze(1)
 
             mask_pred = mask_pred_per_image > self.mask_threshold
-            mask_pred = BitMasks(mask_pred)
+            # fix the bug for visualization
+            # mask_pred = BitMasks(mask_pred) 
 
             # using Detectron2 Instances to store the final results
             result.pred_masks = mask_pred
