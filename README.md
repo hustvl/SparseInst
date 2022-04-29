@@ -18,7 +18,7 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 ## Highlights 
 
 <div align="center">
-<img src="resources/animate.gif">
+<img src="assets/animate.gif">
 <br>
 <br>
 <div>
@@ -55,7 +55,7 @@ The bipartite matching compels the instance activation maps to predict objects i
 
 
 <center>
-<img src="./resources/sparseinst.png">
+<img src="./assets/sparseinst.png">
 </center>
 
 
@@ -173,8 +173,8 @@ python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/
 
 <div>
 <table align="center">
-<td><img src="resources/figures/000000006471.jpg" height=200></td>
-<td><img src="resources/figures/000000014439.jpg" height=200></td>
+<td><img src="assets/figures/000000006471.jpg" height=200></td>
+<td><img src="assets/figures/000000014439.jpg" height=200></td>
 </table>
 <span><p align="center">Visualization results (SparseInst-R50-GIAM)</p></span>
 </div>
