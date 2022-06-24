@@ -215,7 +215,7 @@ class GroupInstanceBranch(nn.Module):
         inst_features = inst_features / normalizer[:, :, None]
 
         inst_features = inst_features.reshape(
-            B, 4, N // 4, -1).transpose(1, 2).reshape(B, N // 4, -1)
+            B, 4, N // self.num_groups, -1).transpose(1, 2).reshape(B, N // self.num_groups, -1)
 
         inst_features = F.relu_(self.fc(inst_features))
         # predict classification & segmentation kernel & objectness
