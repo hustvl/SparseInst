@@ -3,6 +3,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.cuda.amp import autocast
 from scipy.optimize import linear_sum_assignment
 from fvcore.nn import sigmoid_focal_loss_jit
 
@@ -18,7 +19,7 @@ SPARSE_INST_CRITERION_REGISTRY.__doc__ = "Criterion for SparseInst"
 
 def compute_mask_iou(inputs, targets):
     inputs = inputs.sigmoid()
-    # thresholding 
+    # thresholding
     binarized_inputs = (inputs >= 0.4).float()
     targets = (targets > 0.5).float()
     intersection = (binarized_inputs * targets).sum(-1)
@@ -30,9 +31,11 @@ def compute_mask_iou(inputs, targets):
 def dice_score(inputs, targets):
     inputs = inputs.sigmoid()
     numerator = 2 * torch.matmul(inputs, targets.t())
-    denominator = (inputs * inputs).sum(-1)[:, None] + (targets * targets).sum(-1)
+    denominator = (
+        inputs * inputs).sum(-1)[:, None] + (targets * targets).sum(-1)
     score = numerator / (denominator + 1e-4)
     return score
+
 
 def dice_loss(inputs, targets, reduction='sum'):
     inputs = inputs.sigmoid()
@@ -70,13 +73,15 @@ class SparseInstCriterion(nn.Module):
 
     def _get_src_permutation_idx(self, indices):
         # permute predictions following indices
-        batch_idx = torch.cat([torch.full_like(src, i) for i, (src, _) in enumerate(indices)])
+        batch_idx = torch.cat([torch.full_like(src, i)
+                              for i, (src, _) in enumerate(indices)])
         src_idx = torch.cat([src for (src, _) in indices])
         return batch_idx, src_idx
 
     def _get_tgt_permutation_idx(self, indices):
         # permute targets following indices
-        batch_idx = torch.cat([torch.full_like(tgt, i) for i, (_, tgt) in enumerate(indices)])
+        batch_idx = torch.cat([torch.full_like(tgt, i)
+                              for i, (_, tgt) in enumerate(indices)])
         tgt_idx = torch.cat([tgt for (_, tgt) in indices])
         return batch_idx, tgt_idx
 
@@ -84,7 +89,8 @@ class SparseInstCriterion(nn.Module):
         assert "pred_logits" in outputs
         src_logits = outputs['pred_logits']
         idx = self._get_src_permutation_idx(indices)
-        target_classes_o = torch.cat([t["labels"][J] for t, (_, J) in zip(targets, indices)])
+        target_classes_o = torch.cat([t["labels"][J]
+                                     for t, (_, J) in zip(targets, indices)])
         target_classes = torch.full(src_logits.shape[:2], self.num_classes,
                                     dtype=torch.int64, device=src_logits.device)
         target_classes[idx] = target_classes_o
@@ -92,7 +98,8 @@ class SparseInstCriterion(nn.Module):
         src_logits = src_logits.flatten(0, 1)
         # prepare one_hot target.
         target_classes = target_classes.flatten(0, 1)
-        pos_inds = torch.nonzero(target_classes != self.num_classes, as_tuple=True)[0]
+        pos_inds = torch.nonzero(
+            target_classes != self.num_classes, as_tuple=True)[0]
         labels = torch.zeros_like(src_logits)
         labels[pos_inds, target_classes[pos_inds]] = 1
         # comp focal loss.
@@ -105,7 +112,7 @@ class SparseInstCriterion(nn.Module):
         ) / num_instances
         losses = {'loss_ce': class_loss}
         return losses
-    
+
     def loss_masks_with_iou_objectness(self, outputs, targets, indices, num_instances, input_shape):
         src_idx = self._get_src_permutation_idx(indices)
         tgt_idx = self._get_tgt_permutation_idx(indices)
@@ -145,7 +152,6 @@ class SparseInstCriterion(nn.Module):
         with torch.no_grad():
             ious = compute_mask_iou(src_masks, target_masks)
 
-
         tgt_iou_scores = ious
         src_iou_scores = src_iou_scores[src_idx]
         tgt_iou_scores = tgt_iou_scores.flatten(0)
@@ -157,7 +163,6 @@ class SparseInstCriterion(nn.Module):
             "loss_mask": F.binary_cross_entropy_with_logits(src_masks, target_masks, reduction='mean')
         }
         return losses
-
 
     def get_loss(self, loss, outputs, targets, indices, num_instances, **kwargs):
         loss_map = {
@@ -172,7 +177,8 @@ class SparseInstCriterion(nn.Module):
 
     def forward(self, outputs, targets, input_shape):
 
-        outputs_without_aux = {k: v for k, v in outputs.items() if k != 'aux_outputs'}
+        outputs_without_aux = {k: v for k,
+                               v in outputs.items() if k != 'aux_outputs'}
 
         # Retrieve the matching between the outputs of the last layer and the targets
         indices = self.matcher(outputs_without_aux, targets, input_shape)
@@ -182,7 +188,8 @@ class SparseInstCriterion(nn.Module):
             [num_instances], dtype=torch.float, device=next(iter(outputs.values())).device)
         if is_dist_avail_and_initialized():
             torch.distributed.all_reduce(num_instances)
-        num_instances = torch.clamp(num_instances / get_world_size(), min=1).item()
+        num_instances = torch.clamp(
+            num_instances / get_world_size(), min=1).item()
         # Compute all the requested losses
         losses = {}
         for loss in self.losses:
@@ -194,7 +201,6 @@ class SparseInstCriterion(nn.Module):
                 losses[k] *= self.weight_dict[k]
 
         return losses
-
 
 
 @SPARSE_INST_MATCHER_REGISTRY.register()
@@ -280,11 +286,15 @@ class SparseInstMatcher(nn.Module):
 
             pred_masks = pred_masks.view(B * N, -1)
             tgt_masks = tgt_masks.flatten(1)
+            with autocast(enabled=False):
+                pred_masks = pred_masks.float()
+                tgt_masks = tgt_masks.float()
+                pred_logits = pred_logits.float()
+                mask_score = self.mask_score(pred_masks, tgt_masks)
+                # Nx(Number of gts)
+                matching_prob = pred_logits.view(B * N, -1)[:, tgt_ids]
+                C = (mask_score ** self.alpha) * (matching_prob ** self.beta)
 
-            mask_score = self.mask_score(pred_masks, tgt_masks)
-            # Nx(Number of gts)
-            matching_prob = pred_logits.view(B * N, -1)[:, tgt_ids]
-            C = (mask_score ** self.alpha) * (matching_prob ** self.beta)
             C = C.view(B, N, -1).cpu()
             # hungarian matching
             sizes = [len(v["masks"]) for v in targets]
@@ -293,7 +303,6 @@ class SparseInstMatcher(nn.Module):
             indices = [(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(
                 j, dtype=torch.int64)) for i, j in indices]
             return indices
-
 
 
 def build_sparse_inst_matcher(cfg):

@@ -4,6 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.cuda.amp import autocast
 
 from detectron2.config import get_cfg
 from detectron2.modeling import build_backbone
@@ -25,8 +26,10 @@ __all__ = ["SparseInst"]
 pixel_mean = torch.Tensor([123.675, 116.280, 103.530]).to(device).view(3, 1, 1)
 pixel_std = torch.Tensor([58.395, 57.120, 57.375]).to(device).view(3, 1, 1)
 
+
 @torch.jit.script
 def normalizer(x, mean, std): return (x - mean) / std
+
 
 def synchronize():
     torch.cuda.synchronize()
@@ -76,7 +79,8 @@ class SparseInst(nn.Module):
         features = self.backbone(image)
         features = self.encoder(features)
         output = self.decoder(features)
-        result = self.inference_single(output, resized_size, max_size, ori_size)
+        result = self.inference_single(
+            output, resized_size, max_size, ori_size)
         return result
 
     def inference_single(self, outputs, img_shape, pad_shape, ori_shape):
@@ -120,7 +124,7 @@ class SparseInst(nn.Module):
         return result
 
 
-def test_sparseinst_speed(cfg):
+def test_sparseinst_speed(cfg, fp16=False):
     device = torch.device('cuda:0')
 
     model = SparseInst(cfg)
@@ -136,27 +140,29 @@ def test_sparseinst_speed(cfg):
 
     output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
 
-    evaluator = COCOMaskEvaluator(cfg.DATASETS.TEST[0], ("segm",), False, output_folder)
+    evaluator = COCOMaskEvaluator(
+        cfg.DATASETS.TEST[0], ("segm",), False, output_folder)
     evaluator.reset()
     model.to(device)
     model.eval()
     data_loader = build_detection_test_loader(cfg, cfg.DATASETS.TEST[0])
     durations = []
 
-    with torch.no_grad():
-        for idx, inputs in enumerate(data_loader):
-            images, resized_size, ori_size = process_batched_inputs(inputs)
-            synchronize()
-            start_time = time.perf_counter()
-            output = model(images, resized_size, ori_size)
-            synchronize()
-            end = time.perf_counter() - start_time
+    with torch.autocast(enabled=fp16):
+        with torch.no_grad():
+            for idx, inputs in enumerate(data_loader):
+                images, resized_size, ori_size = process_batched_inputs(inputs)
+                synchronize()
+                start_time = time.perf_counter()
+                output = model(images, resized_size, ori_size)
+                synchronize()
+                end = time.perf_counter() - start_time
 
-            durations.append(end)
-            if idx % 1000 == 0:
-                print("process: [{}/{}] fps: {:.3f}".format(idx, len(data_loader), 1/np.mean(durations[100:])))
-            evaluator.process(inputs, [{"instances": output}])
-    
+                durations.append(end)
+                if idx % 1000 == 0:
+                    print("process: [{}/{}] fps: {:.3f}".format(idx,
+                                                                len(data_loader), 1/np.mean(durations[100:])))
+                evaluator.process(inputs, [{"instances": output}])
     # evaluate
     results = evaluator.evaluate()
     print_csv_format(results)
@@ -182,7 +188,9 @@ def setup(args):
 if __name__ == '__main__':
 
     args = default_argument_parser()
+    args.add_argument("--fp16", action="store_true",
+                      help="support fp16 for inference")
     args = args.parse_args()
     print("Command Line Args:", args)
     cfg = setup(args)
-    test_sparseinst_speed(cfg)
+    test_sparseinst_speed(cfg, fp16=args.fp16)

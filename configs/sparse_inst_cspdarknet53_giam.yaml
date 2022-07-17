@@ -1,6 +1,6 @@
 _BASE_: "Base-SparseInst.yaml"
 MODEL:
-  WEIGHTS: "../../pretrained_models/cspdarknet53_ra_256-d05c7c21.pth"
+  WEIGHTS: "pretrained_models/cspdarknet53_ra_256-d05c7c21.pth"
   BACKBONE:
     NAME: "build_cspnet_backbone"
   SPARSE_INST:

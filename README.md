@@ -9,8 +9,11 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 (<span>&#8224;</span>: corresponding author)
 
 <!-- <div><a href="">[Project Page]</a>(comming soon)</div>  -->
-<div><a href="https://arxiv.org/abs/2203.12827">[Paper]</a></div>
-
+<div>
+<a href="https://arxiv.org/abs/2203.12827">[arXiv paper]</a>
+<a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Cheng_Sparse_Instance_Activation_for_Real-Time_Instance_Segmentation_CVPR_2022_paper.pdf">[conference paper]</a>
+<a href="./assets/slides.pdf">[slides]</a>
+</div>
 </div>
 
 
@@ -39,11 +42,13 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* **[2022-4-29]:** We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
+* &#128293; `[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](). Inference with FP16 improves the speed by **30\%**, you can check []() for more details. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax + bias`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
 
-* **[2022-4-7]:** We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122). We are still supporting more backbones.
+* `[2022-4-29]`: We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
 
-* **[2022-3-25]:** We have released the code and models for SparseInst! 
+* `[2022-4-7]`: We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122). We are still supporting more backbones.
+
+* `[2022-3-25]`: We have released the code and models for SparseInst! 
 
  
 
@@ -71,6 +76,7 @@ All models are trained on MS-COCO *train2017*.
 | [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | 33.2 | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
 | [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | 34.5 | 42.6 | [model](https://drive.google.com/file/d/1fjPFy35X2iJu3tYwVdAq4Bel82PfH5kx/view?usp=sharing)|
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
+| [SparseInst (G-IAM, Softmax)](configs/sparse_inst_r50_giam_soft.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model]() |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50]() | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN]() | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_giam_aug.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003;| 35.6 | 36.1 | 42.8| [model](https://drive.google.com/file/d/1dlamg7ych_BdWpPUCuiBXbwE0SXpsfGx/view?usp=sharing) |
@@ -131,6 +137,29 @@ python setup.py build develop
 ## Getting Start
 
 
+### &#128293; SparseInst with FP16
+
+SparseInst with FP16 achieves 30% faster inference speed and saves much training memory, we provide some comparisons about the memory, inference speed, and training speed in the below table.
+
+|  FP16 | train mem.(log) | train mem.(`nvidia-smi`) | train speed | infer. speed | 
+| :---: | :-------------: | :----------------------: | :---------: | :----------: |
+| &#x2718; | 6.0G | 10.5G | 0.6949s/iter | 52.17 FPS |
+| &#10003; | 3.9G | 6.8G  | 0.8690s/iter | 67.57 FPS |
+
+Note: statistics are measured on NVIDIA 3090. With FP16, we have faster training speed and can also increase the batch size for better performance.
+
+* Training with FP16: enable FP16 is simple, you only need to enable `SOLVER.AMP.ENABLED=True`, or add this configuration to the config file.
+
+```bash
+python train_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --num-gpus 8 SOLVER.AMP.ENABLED True
+```
+
+* Testing with FP16: enable FP16 for inference by adding `--fp16`.
+
+```bash
+python test_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --fp16 MODEL.WEIGHTS model_final.pth 
+```
+
 ### Testing SparseInst
 
 Before testing, you should specify the config file `<CONFIG>` and the model weights `<MODEL-PATH>`. In addition, you can change the input size by setting the `INPUT.MIN_SIZE_TEST` in both config file or commandline.
@@ -178,8 +207,6 @@ python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/
 </table>
 <span><p align="center">Visualization results (SparseInst-R50-GIAM)</p></span>
 </div>
-
-
 
 
 ### Training SparseInst

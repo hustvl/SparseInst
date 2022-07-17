@@ -1,6 +1,6 @@
 _BASE_: "Base-SparseInst.yaml"
 MODEL:
-  WEIGHTS: "../../pretrained_models/pvt_v2_b2_li.pth"
+  WEIGHTS: "pretrained_models/pvt_v2_b2_li.pth"
   BACKBONE:
     NAME: "build_pyramid_vision_transformer"
   SPARSE_INST:

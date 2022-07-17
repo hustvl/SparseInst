@@ -46,15 +46,17 @@ class SparseInst(nn.Module):
         # data and preprocessing
         self.mask_format = cfg.INPUT.MASK_FORMAT
 
-        self.pixel_mean = torch.Tensor(cfg.MODEL.PIXEL_MEAN).to(self.device).view(3, 1, 1)
-        self.pixel_std = torch.Tensor(cfg.MODEL.PIXEL_STD).to(self.device).view(3, 1, 1)
+        self.pixel_mean = torch.Tensor(
+            cfg.MODEL.PIXEL_MEAN).to(self.device).view(3, 1, 1)
+        self.pixel_std = torch.Tensor(
+            cfg.MODEL.PIXEL_STD).to(self.device).view(3, 1, 1)
         # self.normalizer = lambda x: (x - pixel_mean) / pixel_std
 
         # inference
         self.cls_threshold = cfg.MODEL.SPARSE_INST.CLS_THRESHOLD
         self.mask_threshold = cfg.MODEL.SPARSE_INST.MASK_THRESHOLD
         self.max_detections = cfg.MODEL.SPARSE_INST.MAX_DETECTIONS
-    
+
     def normalizer(self, image):
         image = (image - self.pixel_mean) / self.pixel_std
         return image
@@ -80,7 +82,8 @@ class SparseInst(nn.Module):
                     if len(gt_masks.polygons) == 0:
                         gt_masks = BitMasks(torch.empty(0, h, w))
                     else:
-                        gt_masks = BitMasks.from_polygon_masks(gt_masks.polygons, h, w)
+                        gt_masks = BitMasks.from_polygon_masks(
+                            gt_masks.polygons, h, w)
 
             target["masks"] = gt_masks.to(self.device)
             new_targets.append(target)
@@ -98,18 +101,33 @@ class SparseInst(nn.Module):
         output = self.decoder(features)
 
         if self.training:
-            gt_instances = [x["instances"].to(self.device) for x in batched_inputs]
+            gt_instances = [x["instances"].to(
+                self.device) for x in batched_inputs]
             targets = self.prepare_targets(gt_instances)
             losses = self.criterion(output, targets, max_shape)
             return losses
         else:
-            results = self.inference(output, batched_inputs, max_shape, images.image_sizes)
+            results = self.inference(
+                output, batched_inputs, max_shape, images.image_sizes)
             processed_results = [{"instances": r} for r in results]
             return processed_results
 
     def forward_test(self, images):
-        pass
+        # for inference, onnx, tensorrt
+        # input images: BxCxHxW, fixed, need padding size
+        # normalize
+        images = (images - self.pixel_mean[None]) / self.pixel_std[None]
+        features = self.backbone(images)
+        features = self.encoder(features)
+        output = self.decoder(features)
 
+        pred_scores = output["pred_logits"].sigmoid()
+        pred_masks = output["pred_masks"].sigmoid()
+        pred_objectness = output["pred_scores"].sigmoid()
+        pred_scores = torch.sqrt(pred_scores * pred_objectness)
+        pred_masks = F.interpolate(
+            pred_masks, scale_factor=4.0, mode="bilinear", align_corners=False)
+        return pred_scores, pred_masks
 
     def inference(self, output, batched_inputs, max_shape, image_sizes):
         # max_detections = self.max_detections
@@ -118,7 +136,7 @@ class SparseInst(nn.Module):
         pred_masks = output["pred_masks"].sigmoid()
         pred_objectness = output["pred_scores"].sigmoid()
         pred_scores = torch.sqrt(pred_scores * pred_objectness)
-    
+
         for _, (scores_per_image, mask_pred_per_image, batched_input, img_shape) in enumerate(zip(
                 pred_scores, pred_masks, batched_inputs, image_sizes)):
 
@@ -140,7 +158,8 @@ class SparseInst(nn.Module):
 
             h, w = img_shape
             # rescoring mask using maskness
-            scores = rescoring_mask(scores, mask_pred_per_image > self.mask_threshold, mask_pred_per_image)
+            scores = rescoring_mask(
+                scores, mask_pred_per_image > self.mask_threshold, mask_pred_per_image)
 
             # upsample the masks to the original resolution:
             # (1) upsampling the masks to the padded inputs, remove the padding area
@@ -152,7 +171,7 @@ class SparseInst(nn.Module):
 
             mask_pred = mask_pred_per_image > self.mask_threshold
             # fix the bug for visualization
-            # mask_pred = BitMasks(mask_pred) 
+            # mask_pred = BitMasks(mask_pred)
 
             # using Detectron2 Instances to store the final results
             result.pred_masks = mask_pred
@@ -161,6 +180,3 @@ class SparseInst(nn.Module):
             results.append(result)
 
         return results
-
-    
-
