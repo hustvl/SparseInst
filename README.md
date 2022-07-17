@@ -32,7 +32,9 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* [2022-3-25]: We have released the code and models for SparseInst! 
+* **[2022-3-25]:** We have released the code and models for SparseInst! 
+
+* **[2022-3-26]:** We have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), [VoVNet](https://arxiv.org/abs/1911.06667), [PvTv2](https://arxiv.org/abs/2102.12122) and [Swin-Transformer](https://arxiv.org/abs/2103.14030). We are still supporting more backbones.
  
 
 
@@ -58,9 +60,9 @@ All models are trained on MS-COCO *train2017*.
 
 | model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------  | :---: | :-: |:--------------: | :--: | :-: | :-----: |
-| [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | - | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
-| [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | - | 42.6 | [model]()|
-| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | - | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
+| [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | 33.2 | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
+| [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | 34.5 | 42.6 | [model](https://drive.google.com/file/d/1fjPFy35X2iJu3tYwVdAq4Bel82PfH5kx/view?usp=sharing)|
+| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50]() | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN]() | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_giam_aug.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003;| 35.6 | 36.1 | 42.8| [model](https://drive.google.com/file/d/1dlamg7ych_BdWpPUCuiBXbwE0SXpsfGx/view?usp=sharing) |
@@ -68,11 +70,30 @@ All models are trained on MS-COCO *train2017*.
 | [SparseInst (G-IAM)](sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
 
 
-<!-- #### Larger models
+#### SparseInst with other backbones
 
 | model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
-| SparseInst (G-IAM) | [R-101]() | 640 |                   |      |   | [model]()| -->
+| SparseInst (G-IAM) | [VoVNet]() | 640 | - | - | - | [model]() |
+| SparseInst (G-IAM) | [CSPDarkNet]() | 640 | - | -| - | [model]() | 
+
+#### Larger models
+
+| model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
+| SparseInst (G-IAM) | [R-101]() | 640 | 34.9 | 35.5 | - | [model]()|
+| SparseInst (G-IAM) | [R-101-DCN]() | 640 | - | - | - | [model]() |
+
+#### SparseInst with Vision Transformers
+
+
+
+| model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
+| SparseInst (G-IAM) | [PVTv2-B1]() | 640 | - | - | - | [model]() |
+| SparseInst (G-IAM) | [PVTv2-B2-li]() | 640 | - | - | - | [model]() |
+<!-- | SparseInst (G-IAM) | [Swin-T]() | 640 | - | - | - | [model]() | -->
+
 
 
 **Note:** 

@@ -41,6 +41,9 @@ def build_transform_gen(cfg, is_train):
             )
         )
     if is_train:
+        # 800,1333, 0.6
+        # 600, 1000
+        # aspect ratio fixed
         augmentation.append(
             T.ResizeShortestEdge(min_size, max_size, sample_style)
         )
