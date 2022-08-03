@@ -148,7 +148,7 @@ def test_sparseinst_speed(cfg, fp16=False):
     data_loader = build_detection_test_loader(cfg, cfg.DATASETS.TEST[0])
     durations = []
 
-    with torch.autocast(enabled=fp16):
+    with autocast(enabled=fp16):
         with torch.no_grad():
             for idx, inputs in enumerate(data_loader):
                 images, resized_size, ori_size = process_batched_inputs(inputs)
