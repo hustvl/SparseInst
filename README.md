@@ -2,7 +2,8 @@
 <img src="assets/banner.gif" width="500" align="center">
 <br>
 <!-- <h1>SparseInst &#128640;</h1> -->
-<h1><font size="4", >A simple framework for real-time instance segmentation, CVPR 2022</font></h1>
+<span><font size="4", >A simple framework for real-time instance segmentation, CVPR 2022</font></span>
+
 Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#8224;</span></sup>, Shaoyu Chen, Wenqiang Zhang, <a href="https://scholar.google.com/citations?user=pCY-bikAAAAJ&hl=zh-CN">Qian Zhang</a>, <a href="https://scholar.google.com/citations?user=IyyEKyIAAAAJ&hl=zh-CN">Chang Huang</a>, <a href="https://zhaoxiangzhang.net/">Zhaoxiang Zhang</a>, <a href="http://eic.hust.edu.cn/professor/liuwenyu/"> Wenyu Liu</a>
 </br>
 (<span>&#8224;</span>: corresponding author)
