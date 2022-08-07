@@ -1,7 +1,6 @@
 # Copyright (c) Tianheng Cheng and its affiliates. All Rights Reserved
 
 import math
-from turtle import forward
 import torch
 import torch.nn as nn
 from torch.nn import init
