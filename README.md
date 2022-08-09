@@ -42,7 +42,7 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 * `[2022-8-9]`: We provide the FLOPs counter [`get_flops.py`](./tools/get_flops.py) to obtain the FLOPs/Parameters of SparseInst. This update also includes some bugfixs.
 
-*`[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
+* `[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
 
 * `[2022-4-29]`: We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
 
