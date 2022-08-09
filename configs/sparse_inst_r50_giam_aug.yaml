@@ -1,4 +1,6 @@
 _BASE_: "Base-SparseInst.yaml"
+MODEL:
+  WEIGHTS: "pretrained_models/R-50.pkl"
 INPUT:
   CROP:
     ENABLED: True

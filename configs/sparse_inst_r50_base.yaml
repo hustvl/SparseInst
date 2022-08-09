@@ -1,5 +1,6 @@
 _BASE_: "Base-SparseInst.yaml"
 MODEL:
+  WEIGHTS: "pretrained_models/R-50.pkl"
   SPARSE_INST:
     DECODER:
       NAME: "BaseIAMDecoder"

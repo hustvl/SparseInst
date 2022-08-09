@@ -1,5 +1,6 @@
 _BASE_: "Base-SparseInst.yaml"
 MODEL:
+  WEIGHTS: "pretrained_models/R-50.pkl"
   RESNETS:
     DEFORM_ON_PER_STAGE: [False, False, True, True] # dcn on res4, res5
 INPUT:
