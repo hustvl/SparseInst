@@ -1,8 +1,6 @@
 <div align="center">
-<h1>SparseInst &#128640;</h1>
-<span><font size="4", >A simple framework for real-time instance segmentation, CVPR 2022</font></span>
-</br>
-by
+<img src="assets/banner.gif" width="500" align="center">
+<br>
 <br>
 Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#8224;</span></sup>, Shaoyu Chen, Wenqiang Zhang, <a href="https://scholar.google.com/citations?user=pCY-bikAAAAJ&hl=zh-CN">Qian Zhang</a>, <a href="https://scholar.google.com/citations?user=IyyEKyIAAAAJ&hl=zh-CN">Chang Huang</a>, <a href="https://zhaoxiangzhang.net/">Zhaoxiang Zhang</a>, <a href="http://eic.hust.edu.cn/professor/liuwenyu/"> Wenyu Liu</a>
 </br>
@@ -11,8 +9,8 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 <!-- <div><a href="">[Project Page]</a>(comming soon)</div>  -->
 <div>
 <a href="https://arxiv.org/abs/2203.12827">[arXiv paper]</a>
-<a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Cheng_Sparse_Instance_Activation_for_Real-Time_Instance_Segmentation_CVPR_2022_paper.pdf">[conference paper]</a>
-<a href="./assets/slides.pdf">[slides]</a>
+<a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Cheng_Sparse_Instance_Activation_for_Real-Time_Instance_Segmentation_CVPR_2022_paper.pdf">[CVPR paper]</a>
+<a href="https://drive.google.com/file/d/1xhqQvQ0YVCHd8XQxnCVqef75Hey7kI-d/view?usp=sharing">[slides]</a>
 </div>
 </div>
 
@@ -42,7 +40,8 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* &#128293; `[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**, you can check []() for more details. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax + bias`](configs/sparse_inst_r50_giam_soft.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
+* `[2022-8-9]`: We provide the FLOPs counter [`get_flops.py`](./tools/get_flops.py) to obtain the FLOPs/Parameters of SparseInst. This update also includes some bugfixs.
+* &#128293; `[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**, you can check []() for more details. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
 
 * `[2022-4-29]`: We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
 
@@ -73,12 +72,12 @@ All models are trained on MS-COCO *train2017*.
 
 | model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------  | :---: | :-: |:--------------: | :--: | :-: | :-----: |
-| [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | 33.2 | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
+| [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50](https://drive.google.com/file/d/1Ee6nPXlj1eewAnooYtoPtLzbRp_mDxfB/view?usp=sharing) | 640 | &#x2718; | 32.8 | 33.2 | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
 | [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | 34.5 | 42.6 | [model](https://drive.google.com/file/d/1fjPFy35X2iJu3tYwVdAq4Bel82PfH5kx/view?usp=sharing)|
-| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
-| [SparseInst (G-IAM, Softmax)](configs/sparse_inst_r50_giam_soft.yaml) | [R-50]() | 608 | &#x2718; | 33.8 | - | 44.6 | [model]() |
-| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50]() | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
-| [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN]() | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50](https://drive.google.com/file/d/1Ee6nPXlj1eewAnooYtoPtLzbRp_mDxfB/view?usp=sharing) | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
+| [SparseInst (G-IAM, Softmax)](configs/sparse_inst_r50_giam_soft.yaml) | [R-50](https://drive.google.com/file/d/1Ee6nPXlj1eewAnooYtoPtLzbRp_mDxfB/view?usp=sharing) | 608 | &#x2718; | 33.6 | - | 44.6 | [model](https://drive.google.com/file/d/1doterrG89SjmLxDyU8IhLYRGxVH69sR2/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50](https://drive.google.com/file/d/1Ee6nPXlj1eewAnooYtoPtLzbRp_mDxfB/view?usp=sharing) | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN](https://drive.google.com/file/d/1Ee6nPXlj1eewAnooYtoPtLzbRp_mDxfB/view?usp=sharing) | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_giam_aug.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003;| 35.6 | 36.1 | 42.8| [model](https://drive.google.com/file/d/1dlamg7ych_BdWpPUCuiBXbwE0SXpsfGx/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003; | 37.4 | 37.9 | 40.0  | [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)|
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
@@ -94,15 +93,15 @@ All models are trained on MS-COCO *train2017*.
 
 | model | backbone | input | aug  | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------ | :---: | :---: | :--------------: | :--: | :-: | :-----: |
-| [SparseInst (G-IAM)](configs/sparse_inst_r101_giam.yaml) | [R-101]() | 640 | &#x2718; | 34.9 | 35.5 | - | [model](https://drive.google.com/file/d/1EZZck-UNfom652iyDhdaGYbxS0MrO__z/view?usp=sharing)|
-| [SparseInst (G-IAM)](configs/sparse_inst_r101_dcn_giam.yaml) | [R-101-DCN]() | 640 | &#x2718; | 36.4 | 36.9 | - | [model](https://drive.google.com/file/d/1shkFvyBmDlWRxl1ActD6VfZJTJYBGBjv/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_r101_giam.yaml) | [R-101](https://drive.google.com/file/d/1-6ZBvC55unwuHvGn-Xf4xuy2Qr1vC7Zo/view?usp=sharing) | 640 | &#x2718; | 34.9 | 35.5 | - | [model](https://drive.google.com/file/d/1EZZck-UNfom652iyDhdaGYbxS0MrO__z/view?usp=sharing)|
+| [SparseInst (G-IAM)](configs/sparse_inst_r101_dcn_giam.yaml) | [R-101-DCN](https://drive.google.com/file/d/1-6ZBvC55unwuHvGn-Xf4xuy2Qr1vC7Zo/view?usp=sharing) | 640 | &#x2718; | 36.4 | 36.9 | - | [model](https://drive.google.com/file/d/1shkFvyBmDlWRxl1ActD6VfZJTJYBGBjv/view?usp=sharing) |
 
 #### SparseInst with Vision Transformers
 
 | model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------ | :---: | :---: | :--------------: | :--: | :-: | :-----: |
-| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b1_giam.yaml) | [PVTv2-B1]() | 640 |  &#x2718; | 35.3 | 36.0 | 33.5 (48.9<sup>&#x021A1;</sup>)| [model](https://drive.google.com/file/d/13l9JgTz3sF6j3vSVHOOhAYJnCf-QuNe_/view?usp=sharing) |
-| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b2_li_giam.yaml) | [PVTv2-B2-li]() | 640 |  &#x2718; | 37.2 | 38.2 | 26.5 | [model](https://drive.google.com/file/d/1DFxQnFg_UL6kmMoNC4StUKo79RXVHyNF/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b1_giam.yaml) | [PVTv2-B1](https://drive.google.com/file/d/1B7JTO0WqyhFn7nvUlRf6qKQrFzTnRWDC/view?usp=sharing) | 640 |  &#x2718; | 35.3 | 36.0 | 33.5 (48.9<sup>&#x021A1;</sup>)| [model](https://drive.google.com/file/d/13l9JgTz3sF6j3vSVHOOhAYJnCf-QuNe_/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b2_li_giam.yaml) | [PVTv2-B2-li](https://drive.google.com/file/d/1YhjCH4FZa9ekWUqa-JovEfAR2wuUXEtQ/view?usp=sharing) | 640 |  &#x2718; | 37.2 | 38.2 | 26.5 | [model](https://drive.google.com/file/d/1DFxQnFg_UL6kmMoNC4StUKo79RXVHyNF/view?usp=sharing) |
 
 <sup>&#x021A1;</sup>: measured on RTX 3090.
 
@@ -122,14 +121,16 @@ All models are trained on MS-COCO *train2017*.
 
 This project is built upon the excellent framework [detectron2](https://github.com/facebookreseach/detectron2), and you should install detectron2 first, please check [official installation guide](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for more details.
 
-**Note:** we mainly use [v0.3](https://github.com/facebookresearch/detectron2/tree/v0.3) of detectron2 for experiments and evaluations. Besides, we also test our code on the newest version [v0.6](https://github.com/facebookresearch/detectron2/tree/v0.6). If you find some bugs or incompatibility problems of higher version of detectron2, please feel free to raise a issue!
+**Updates:** SparseInst works well on [detectron2-v0.6](https://github.com/facebookresearch/detectron2/tree/v0.6). 
+
+**Note:** previously, we mainly use [v0.3](https://github.com/facebookresearch/detectron2/tree/v0.3) of detectron2 for experiments and evaluations. Besides, we also test our code on the newest version [v0.6](https://github.com/facebookresearch/detectron2/tree/v0.6). If you find some bugs or incompatibility problems of higher version of detectron2, please feel free to raise a issue!
 
 Install the detectron2:
 
 ```bash
 git clone https://github.com/facebookresearch/detectron2.git
-# if you swith to a specific version, e.g., v0.3 (recommended)
-git checkout tags/v0.3
+# if you swith to a specific version, e.g., v0.3 (recommended) or v0.6
+git checkout tags/v0.6
 # build detectron2
 python setup.py build develop
 ```
@@ -151,13 +152,13 @@ Note: statistics are measured on NVIDIA 3090. With FP16, we have faster training
 * Training with FP16: enable FP16 is simple, you only need to enable `SOLVER.AMP.ENABLED=True`, or add this configuration to the config file.
 
 ```bash
-python train_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --num-gpus 8 SOLVER.AMP.ENABLED True
+python tools/train_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --num-gpus 8 SOLVER.AMP.ENABLED True
 ```
 
 * Testing with FP16: enable FP16 for inference by adding `--fp16`.
 
 ```bash
-python test_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --fp16 MODEL.WEIGHTS model_final.pth 
+python tools/test_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --fp16 MODEL.WEIGHTS model_final.pth 
 ```
 
 ### Testing SparseInst
@@ -167,23 +168,31 @@ Before testing, you should specify the config file `<CONFIG>` and the model weig
 * [Performance Evaluation] To obtain the evaluation results, *e.g.*, mask AP on COCO, you can run:
 
 ```bash
-python train_net.py --config-file <CONFIG> --num-gpus <GPUS> --eval MODEL.WEIGHTS <MODEL-PATH>
+python tools/train_net.py --config-file <CONFIG> --num-gpus <GPUS> --eval MODEL.WEIGHTS <MODEL-PATH>
 # example:
-python train_net.py --config-file configs/sparse_inst_r50_giam.yaml --num-gpus 8 --eval MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth
+python tools/train_net.py --config-file configs/sparse_inst_r50_giam.yaml --num-gpus 8 --eval MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth
 ```
 
 * [Inference Speed] To obtain the inference speed (FPS) on one GPU device, you can run:
 
 ```bash
-python test_net.py --config-file <CONFIG> MODEL.WEIGHTS <MODEL-PATH> INPUT.MIN_SIZE_TEST 512
+python tools/test_net.py --config-file <CONFIG> MODEL.WEIGHTS <MODEL-PATH> INPUT.MIN_SIZE_TEST 512
 # example:
-python test_net.py --config-file configs/sparse_inst_r50_giam.yaml MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
+python tools/test_net.py --config-file configs/sparse_inst_r50_giam.yaml MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
 ```
 
 **Note:** 
-* The `test_net.py` only supports **1 GPU** and **1 image per batch** for measuring inference speed.
+* The [`tools/test_net.py`](./tools/test_net.py) only supports **1 GPU** and **1 image per batch** for measuring inference speed.
 * The inference time consists of the *pure forward time* and the *post-processing time*. While the evaluation processing, data loading, and pre-processing for wrappers (*e.g.*, ImageList) are not included.
 * `COCOMaskEvaluator` is modified from [`COCOEvaluator`](https://github.com/facebookresearch/detectron2/blob/main/detectron2/evaluation/coco_evaluation.py) for evaluating mask-only results.
+
+### FLOPs and Parameters
+
+The [`get_flops.py`](tools/get_flops.py) is built based on `detectron2` and `fvcore`. 
+
+```bash
+python tools/get_flops.py --config-file <CONFIG> --tasks parameter flop
+```
 
 ### Visualizing Images with SparseInst
 
@@ -214,9 +223,9 @@ python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/
 To train the SparseInst model on COCO dataset with 8 GPUs. 8 GPUs are required for the training. If you only have 4 GPUs or GPU memory is limited, it doesn't matter and you can reduce the batch size through `SOLVER.IMS_PER_BATCH` or reduce the input size. If you adjust the batch size, learning schedule should be adjusted according to the linear scaling rule.
 
 ```bash
-python train_net.py --config-file <CONFIG> --num-gpus 8 
+python tools/train_net.py --config-file <CONFIG> --num-gpus 8 
 # example
-python train_net.py --config-file configs/sparse_inst_r50vd_dcn_giam_aug.yaml --num-gpus 8
+python tools/train_net.py --config-file configs/sparse_inst_r50vd_dcn_giam_aug.yaml --num-gpus 8
 ```
 
 

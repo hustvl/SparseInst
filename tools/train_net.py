@@ -1,14 +1,13 @@
 import os
+import sys
 import itertools
-import time
 from typing import Any, Dict, List, Set
-
 import torch
-from torch import optim
 
 import detectron2.utils.comm as comm
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
+from detectron2.utils.logger import setup_logger
 from detectron2.data import MetadataCatalog, build_detection_train_loader, DatasetMapper
 from detectron2.engine import AutogradProfiler, DefaultTrainer, default_argument_parser, default_setup, launch
 from detectron2.evaluation import COCOEvaluator, verify_results
@@ -25,6 +24,7 @@ from detectron2.evaluation import (
     verify_results,
 )
 
+sys.path.append(".")
 from sparseinst import add_sparse_inst_config, COCOMaskEvaluator
 
 
@@ -154,6 +154,8 @@ def setup(args):
     cfg.merge_from_list(args.opts)
     cfg.freeze()
     default_setup(cfg, args)
+    # Setup logger for "sparseinst" module
+    setup_logger(output=cfg.OUTPUT_DIR, distributed_rank=comm.get_rank(), name="sparseinst")
     return cfg
 
 

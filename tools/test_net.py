@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import numpy as np
 import torch
@@ -14,6 +15,7 @@ from detectron2.engine import default_argument_parser, default_setup
 from detectron2.data import build_detection_test_loader
 from detectron2.evaluation import COCOEvaluator, print_csv_format
 
+sys.path.append(".")
 from sparseinst import build_sparse_inst_encoder, build_sparse_inst_decoder, add_sparse_inst_config
 from sparseinst import COCOMaskEvaluator
 
@@ -148,7 +150,7 @@ def test_sparseinst_speed(cfg, fp16=False):
     data_loader = build_detection_test_loader(cfg, cfg.DATASETS.TEST[0])
     durations = []
 
-    with torch.autocast(enabled=fp16):
+    with autocast(enabled=fp16):
         with torch.no_grad():
             for idx, inputs in enumerate(data_loader):
                 images, resized_size, ori_size = process_batched_inputs(inputs)
