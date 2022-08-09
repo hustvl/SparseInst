@@ -1,5 +1,5 @@
 <div align="center">
-<img src="assets/banner.gif" width="500">
+<img src="assets/banner.gif">
 <br>
 <br>
 Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#8224;</span></sup>, Shaoyu Chen, Wenqiang Zhang, <a href="https://scholar.google.com/citations?user=pCY-bikAAAAJ&hl=zh-CN">Qian Zhang</a>, <a href="https://scholar.google.com/citations?user=IyyEKyIAAAAJ&hl=zh-CN">Chang Huang</a>, <a href="https://zhaoxiangzhang.net/">Zhaoxiang Zhang</a>, <a href="http://eic.hust.edu.cn/professor/liuwenyu/"> Wenyu Liu</a>
@@ -41,7 +41,8 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 `This project is under active development, please stay tuned!` &#9749;
 
 * `[2022-8-9]`: We provide the FLOPs counter [`get_flops.py`](./tools/get_flops.py) to obtain the FLOPs/Parameters of SparseInst. This update also includes some bugfixs.
-*`[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**, you can check []() for more details. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
+
+*`[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
 
 * `[2022-4-29]`: We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
 
