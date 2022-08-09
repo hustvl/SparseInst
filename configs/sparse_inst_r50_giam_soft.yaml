@@ -1,0 +1,8 @@
+_BASE_: "Base-SparseInst.yaml"
+MODEL:
+  WEIGHTS: "pretrained_models/R-50.pkl"
+MODEL:
+  SPARSE_INST:
+    DECODER:
+      NAME: "GroupIAMSoftDecoder"
+OUTPUT_DIR: "output/sparse_inst_r50_giam_soft"

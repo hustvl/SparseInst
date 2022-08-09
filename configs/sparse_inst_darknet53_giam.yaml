@@ -1,0 +1,12 @@
+_BASE_: "Base-SparseInst.yaml"
+MODEL:
+  WEIGHTS: ""
+  BACKBONE:
+    NAME: "build_cspnet_backbone"
+  SPARSE_INST:
+    ENCODER:
+      IN_FEATURES: ["csp2", "csp3", "csp4"]
+  CSPNET:
+    NAME: "darknet53"
+    OUT_FEATURES: ["csp2", "csp3", "csp4"]
+OUTPUT_DIR: "output/sparse_inst_darknet53_giam"

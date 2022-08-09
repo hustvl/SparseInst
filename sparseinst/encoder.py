@@ -38,6 +38,7 @@ class PyramidPoolingModule(nn.Module):
         return out
 
 
+
 @SPARSE_INST_ENCODER_REGISTRY.register()
 class InstanceContextEncoder(nn.Module):
     """ 
@@ -51,13 +52,9 @@ class InstanceContextEncoder(nn.Module):
         super().__init__()
         self.num_channels = cfg.MODEL.SPARSE_INST.ENCODER.NUM_CHANNELS
         self.in_features = cfg.MODEL.SPARSE_INST.ENCODER.IN_FEATURES
-        # self.norm = cfg.MODEL.SPARSE_INST.ENCODER.NORM
-        # depthwise = cfg.MODEL.SPARSE_INST.ENCODER.DEPTHWISE
         self.in_channels = [input_shape[f].channels for f in self.in_features]
-        # self.using_bias = self.norm == ""
         fpn_laterals = []
         fpn_outputs = []
-        # groups = self.num_channels if depthwise else 1
         for in_channel in reversed(self.in_channels):
             lateral_conv = Conv2d(in_channel, self.num_channels, 1)
             output_conv = Conv2d(self.num_channels, self.num_channels, 3, padding=1)

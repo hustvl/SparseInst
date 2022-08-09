@@ -1,0 +1,12 @@
+_BASE_: "Base-SparseInst.yaml"
+MODEL:
+  WEIGHTS: "pretrained_models/pvt_v2_b1.pth"
+  BACKBONE:
+    NAME: "build_pyramid_vision_transformer"
+  SPARSE_INST:
+    ENCODER:
+      IN_FEATURES: ["p2", "p3", "p4"]
+  PVT:
+    NAME: "b1"
+    OUT_FEATURES: ["p2", "p3", "p4"]
+OUTPUT_DIR: "output/sparse_inst_pvt_b1_giam"

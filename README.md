@@ -9,18 +9,28 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 (<span>&#8224;</span>: corresponding author)
 
 <!-- <div><a href="">[Project Page]</a>(comming soon)</div>  -->
-<div><a href="https://arxiv.org/abs/2203.12827">[Paper]</a></div>
-
+<div>
+<a href="https://arxiv.org/abs/2203.12827">[arXiv paper]</a>
+<a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Cheng_Sparse_Instance_Activation_for_Real-Time_Instance_Segmentation_CVPR_2022_paper.pdf">[conference paper]</a>
+<a href="./assets/slides.pdf">[slides]</a>
 </div>
-
+</div>
 
 
 
 ## Highlights 
 
 <div align="center">
-<img src="resources/animate.gif">
+<img src="assets/animate.gif">
+<br>
+<br>
+<div>
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/sparse-instance-activation-for-real-time/real-time-instance-segmentation-on-mscoco)](https://paperswithcode.com/sota/real-time-instance-segmentation-on-mscoco?p=sparse-instance-activation-for-real-time)
 </div>
+</div>
+
+
 
 * SparseInst presents a new object representation method, *i.e.*, Instance Activation Maps (IAM), to adaptively highlight informative regions of objects for recognition.
 * SparseInst is a simple, efficient, and fully convolutional framework without non-maximum suppression (NMS) or sorting, and easy to deploy!
@@ -32,12 +42,15 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
-* **[2022-3-25]:** We have released the code and models for SparseInst! 
+* &#128293; `[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**, you can check []() for more details. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax + bias`](configs/sparse_inst_r50_giam_soft.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
 
-* **[2022-3-26]:** We have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), [VoVNet](https://arxiv.org/abs/1911.06667), [PvTv2](https://arxiv.org/abs/2102.12122) and [Swin-Transformer](https://arxiv.org/abs/2103.14030). We are still supporting more backbones.
+* `[2022-4-29]`: We fix the **common issue** about the visualization `demo.py`, *e.g.,* `ValueError: GenericMask cannot handle ...`. 
+
+* `[2022-4-7]`: We provide the `demo` code for visualization and inference on images. Besides, we have added more backbones for SparseInst, including [ResNet-101](https://arxiv.org/abs/1512.03385), [CSPDarkNet](https://arxiv.org/pdf/2004.10934v1.pdf), and [PvTv2](https://arxiv.org/abs/2102.12122). We are still supporting more backbones.
+
+* `[2022-3-25]`: We have released the code and models for SparseInst! 
+
  
-
-
 
 ## Overview
 **SparseInst** is a conceptually novel, efficient, and fully convolutional framework for real-time instance segmentation.
@@ -47,7 +60,7 @@ The bipartite matching compels the instance activation maps to predict objects i
 
 
 <center>
-<img src="./resources/sparseinst.png">
+<img src="./assets/sparseinst.png">
 </center>
 
 
@@ -63,48 +76,47 @@ All models are trained on MS-COCO *train2017*.
 | [SparseInst](configs/sparse_inst_r50_base.yaml) | [R-50]() | 640 | &#x2718; | 32.8 | 33.2 | 44.3 | [model](https://drive.google.com/file/d/12RQLHD5EZKIOvlqW3avUCeYjFG1NPKDy/view?usp=sharing) |
 | [SparseInst](sparse_inst_r50vd_base.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#x2718; | 34.1 | 34.5 | 42.6 | [model](https://drive.google.com/file/d/1fjPFy35X2iJu3tYwVdAq4Bel82PfH5kx/view?usp=sharing)|
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam.yaml) | [R-50]() | 608 | &#x2718; | 33.4 | 34.0 | 44.6 | [model](https://drive.google.com/file/d/1pXU7Dsa1L7nUiLU9ULG2F6Pl5m5NEguL/view?usp=sharing) |
+| [SparseInst (G-IAM, Softmax)](configs/sparse_inst_r50_giam_soft.yaml) | [R-50]() | 608 | &#x2718; | 33.8 | - | 44.6 | [model]() |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_giam_aug.yaml) | [R-50]() | 608 | &#10003; | 34.2 | 34.7 | 44.6 | [model](https://drive.google.com/file/d/1MK8rO3qtA7vN9KVSBdp0VvZHCNq8-bvz/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50_dcn_giam_aug.yaml) | [R-50-DCN]() | 608 | &#10003;| 36.4 | 36.8 | 41.6 | [model](https://drive.google.com/file/d/1qxdLRRHbIWEwRYn-NPPeCCk6fhBjc946/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_giam_aug.yaml) | [R-50-vd](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003;| 35.6 | 36.1 | 42.8| [model](https://drive.google.com/file/d/1dlamg7ych_BdWpPUCuiBXbwE0SXpsfGx/view?usp=sharing) |
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003; | 37.4 | 37.9 | 40.0  | [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)|
-| [SparseInst (G-IAM)](sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
+| [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
 
-
-#### SparseInst with other backbones
+<!-- #### SparseInst with other backbones
 
 | model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
 | SparseInst (G-IAM) | [VoVNet]() | 640 | - | - | - | [model]() |
-| SparseInst (G-IAM) | [CSPDarkNet]() | 640 | - | -| - | [model]() | 
+| SparseInst (G-IAM) | [CSPDarkNet]() | 640 | - | -| - | [model]() |  -->
 
 #### Larger models
 
-| model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
-| :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
-| SparseInst (G-IAM) | [R-101]() | 640 | 34.9 | 35.5 | - | [model]()|
-| SparseInst (G-IAM) | [R-101-DCN]() | 640 | - | - | - | [model]() |
+| model | backbone | input | aug  | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :---: | :--------------: | :--: | :-: | :-----: |
+| [SparseInst (G-IAM)](configs/sparse_inst_r101_giam.yaml) | [R-101]() | 640 | &#x2718; | 34.9 | 35.5 | - | [model](https://drive.google.com/file/d/1EZZck-UNfom652iyDhdaGYbxS0MrO__z/view?usp=sharing)|
+| [SparseInst (G-IAM)](configs/sparse_inst_r101_dcn_giam.yaml) | [R-101-DCN]() | 640 | &#x2718; | 36.4 | 36.9 | - | [model](https://drive.google.com/file/d/1shkFvyBmDlWRxl1ActD6VfZJTJYBGBjv/view?usp=sharing) |
 
 #### SparseInst with Vision Transformers
 
+| model | backbone | input | aug | AP<sup>val</sup> |  AP  | FPS | weights |
+| :---- | :------ | :---: | :---: | :--------------: | :--: | :-: | :-----: |
+| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b1_giam.yaml) | [PVTv2-B1]() | 640 |  &#x2718; | 35.3 | 36.0 | 33.5 (48.9<sup>&#x021A1;</sup>)| [model](https://drive.google.com/file/d/13l9JgTz3sF6j3vSVHOOhAYJnCf-QuNe_/view?usp=sharing) |
+| [SparseInst (G-IAM)](configs/sparse_inst_pvt_b2_li_giam.yaml) | [PVTv2-B2-li]() | 640 |  &#x2718; | 37.2 | 38.2 | 26.5 | [model](https://drive.google.com/file/d/1DFxQnFg_UL6kmMoNC4StUKo79RXVHyNF/view?usp=sharing) |
 
-
-| model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
-| :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
-| SparseInst (G-IAM) | [PVTv2-B1]() | 640 | - | - | - | [model]() |
-| SparseInst (G-IAM) | [PVTv2-B2-li]() | 640 | - | - | - | [model]() |
-<!-- | SparseInst (G-IAM) | [Swin-T]() | 640 | - | - | - | [model]() | -->
-
+<sup>&#x021A1;</sup>: measured on RTX 3090.
 
 
 **Note:** 
 * **We will continue adding more models** including more efficient convolutional networks, vision transformers, and larger models for high performance and high speed, please stay tuned &#128513;!
-* Inference speeds are measured on one NVIDIA 2080Ti.
+* Inference speeds are measured on one NVIDIA 2080Ti unless specified.
 * We haven't adopt TensorRT or other tools to accelerate the inference of SparseInst. However, we are working on it now and will provide support for ONNX, TensorRT, MindSpore, [Blade](https://github.com/alibaba/BladeDISC), and other frameworks as soon as possible!
 * AP denotes AP evaluated on MS-COCO *test-dev2017*
 * *input* denotes the shorter side of the input, *e.g.*, 512x864 and 608x864, we keep the aspect ratio of the input and the longer side is no more than 864.
 * The inference speed might slightly change on different machines (2080 Ti) and different versions of detectron (we mainly use [v0.3](https://github.com/facebookresearch/detectron2/tree/v0.3)). If the change is sharp, e.g., > 5ms, please feel free to contact us.
 * For `aug` (augmentation), we only adopt the simple random crop (crop size: [384, 600]) provided by detectron2.
 * We adopt `weight decay=5e-2` as default setting, which is slightly different from the original paper.
+* **[Weights on BaiduPan]**: we also provide trained models on BaiduPan: [ShareLink](https://pan.baidu.com/s/1tot7Wcoi4J1xh8ZS7VikZg) (password: lkdo).
 
 ## Installation and Prerequisites
 
@@ -124,6 +136,29 @@ python setup.py build develop
 
 ## Getting Start
 
+
+### &#128293; SparseInst with FP16
+
+SparseInst with FP16 achieves 30% faster inference speed and saves much training memory, we provide some comparisons about the memory, inference speed, and training speed in the below table.
+
+|  FP16 | train mem.(log) | train mem.(`nvidia-smi`) | train speed | infer. speed | 
+| :---: | :-------------: | :----------------------: | :---------: | :----------: |
+| &#x2718; | 6.0G | 10.5G | 0.8690s/iter | 52.17 FPS |
+| &#10003; | 3.9G | 6.8G  | 0.6949s/iter | 67.57 FPS |
+
+Note: statistics are measured on NVIDIA 3090. With FP16, we have faster training speed and can also increase the batch size for better performance.
+
+* Training with FP16: enable FP16 is simple, you only need to enable `SOLVER.AMP.ENABLED=True`, or add this configuration to the config file.
+
+```bash
+python train_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --num-gpus 8 SOLVER.AMP.ENABLED True
+```
+
+* Testing with FP16: enable FP16 for inference by adding `--fp16`.
+
+```bash
+python test_net.py --config-file configs/sparse_inst_r50_giam_fp16.yaml --fp16 MODEL.WEIGHTS model_final.pth 
+```
 
 ### Testing SparseInst
 
@@ -150,6 +185,29 @@ python test_net.py --config-file configs/sparse_inst_r50_giam.yaml MODEL.WEIGHTS
 * The inference time consists of the *pure forward time* and the *post-processing time*. While the evaluation processing, data loading, and pre-processing for wrappers (*e.g.*, ImageList) are not included.
 * `COCOMaskEvaluator` is modified from [`COCOEvaluator`](https://github.com/facebookresearch/detectron2/blob/main/detectron2/evaluation/coco_evaluation.py) for evaluating mask-only results.
 
+### Visualizing Images with SparseInst
+
+To inference or visualize the segmentation results on your images, you can run:
+
+```bash
+python demo.py --config-file <CONFIG> --input <IMAGE-PATH> --output results --opts MODEL.WEIGHTS <MODEL-PATH>
+# example
+python demo.py --config-file configs/sparse_inst_r50_giam.yaml --input datasets/coco/val2017/* --output results --opt MODEL.WEIGHTS sparse_inst_r50_giam_aug_2b7d68.pth INPUT.MIN_SIZE_TEST 512
+```
+* Besides, the `demo.py` also supports inference on video (`--video-input`), camera (`--webcam`). For inference on video, you might refer to [issue #9](https://github.com/hustvl/SparseInst/issues/9) to avoid someerrors.
+* `--opts` supports modifications to the config-file, *e.g.,* `INPUT.MIN_SIZE_TEST 512`.
+* `--input` can be single image or a folder of images, *e.g.,* `xxx/*`.
+* If `--output` is not specified, a popup window will show the visualization results for each image.
+* Lowering the `confidence-threshold` will show more instances but with more false positives.
+
+<div>
+<table align="center">
+<td><img src="assets/figures/000000006471.jpg" height=200></td>
+<td><img src="assets/figures/000000014439.jpg" height=200></td>
+</table>
+<span><p align="center">Visualization results (SparseInst-R50-GIAM)</p></span>
+</div>
+
 
 ### Training SparseInst
 
@@ -160,6 +218,13 @@ python train_net.py --config-file <CONFIG> --num-gpus 8
 # example
 python train_net.py --config-file configs/sparse_inst_r50vd_dcn_giam_aug.yaml --num-gpus 8
 ```
+
+
+### ONNX Export
+
+
+
+### Training SparseInst with Custom Datasets
 
 
 ## Acknowledgements
@@ -185,4 +250,4 @@ If you find SparseInst is useful in your research or applications, please consid
 
 ## License
 
-SparseInst is released under the [MIT Licence](LICENSE).
+SparseInst is released under the [MIT Licence](LICENCE).

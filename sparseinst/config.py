@@ -66,5 +66,15 @@ def add_sparse_inst_config(cfg):
     # [Dataset mapper]
     cfg.MODEL.SPARSE_INST.DATASET_MAPPER = "SparseInstDatasetMapper"
 
+    # [Pyramid Vision Transformer]
+    cfg.MODEL.PVT = CN()
+    cfg.MODEL.PVT.NAME = "b1"
+    cfg.MODEL.PVT.OUT_FEATURES = ["p2", "p3", "p4"]
+    cfg.MODEL.PVT.LINEAR = False
 
+    cfg.MODEL.CSPNET = CN()
+    cfg.MODEL.CSPNET.NAME = "darknet53"
+    cfg.MODEL.CSPNET.NORM = ""
+    # (csp-)darknet: csp1, csp2, csp3, csp4
+    cfg.MODEL.CSPNET.OUT_FEATURES = ["csp1", "csp2", "csp3", "csp4"]
 
