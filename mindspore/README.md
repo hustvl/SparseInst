@@ -12,7 +12,7 @@
 > pip install mindvision pycocotools opencv-python numpy yacs   
 
 # Model
-[SparseInst_r50_g-iam](链接)
+SparseInst_r50_g-iam [百度网盘](https://pan.baidu.com/s/1ZmZ6nqZrwt4ALYP1B2kdCA?pwd=7xsb)
 
 # Demo
 > python test.py --config /path/to/your/checkpoint  --image_name /path/to/your/image --visualize  
