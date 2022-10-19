@@ -40,6 +40,8 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
+* `[2022-10-19]`: We provide the implementation and inference code based on [MindSpore](https://www.mindspore.cn/), a nice and efficient Deep Learning framework. Thanks [Ruiqi Wang](https://github.com/RuiqiWang00) for this kind contribution!
+
 * `[2022-8-9]`: We provide the FLOPs counter [`get_flops.py`](./tools/get_flops.py) to obtain the FLOPs/Parameters of SparseInst. This update also includes some bugfixs.
 
 * `[2022-7-17]`: `Faster`&#128640;:  SparseInst now supports [training and inference with **FP16**](https://github.com/hustvl/SparseInst#-sparseinst-with-fp16). Inference with FP16 improves the speed by **30\%**. `Robust`: we replace the `Sigmoid + Norm` with [`Softmax`](configs/sparse_inst_r50_giam_softmax.yaml) for numerical stability, especially for ONNX. `Easy-to-Use`: we provide the [script](./onnx/convert_onnx.py) for exporting SparseInst to ONNX models.
@@ -230,15 +232,22 @@ python tools/train_net.py --config-file configs/sparse_inst_r50vd_dcn_giam_aug.y
 ```
 
 
-### ONNX Export
+<!-- ### ONNX Export -->
 
 
 
-### Training SparseInst with Custom Datasets
+### Custom Training of SparseInst
+
+1. We suggest you convert your custom datasets into the `COCO` format, which enables the usage of the default dataset mappers and loaders. You may find more details in the [official guide of detectron2](https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#register-a-coco-format-dataset).
+
+2. You need to check whether `NUM_CLASSES` and `NUM_MASKS` should be changed according to your scenarios or tasks.
+
+3. Change the configurations accordingly.
+
+4. After finishing the above procedures, you can easily train SparseInst by `train_net.py`.
 
 
 ## Acknowledgements
-
 
 SparseInst is based on [detectron2](https://github.com/facebookresearch/detectron2), [OneNet](https://github.com/PeizeSun/OneNet), [DETR](https://github.com/facebookresearch/detr), and [timm](https://github.com/rwightman/pytorch-image-models), and we sincerely thanks for their code and contribution to the community!
 
