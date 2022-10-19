@@ -73,11 +73,11 @@ class InstanceBranch(nn.Module):
         C = features.size(1)
         # BxNxHxW -> BxNx(HW)
         iam_prob = iam_prob.view(B, N, -1)
+        normalizer = iam_prob.sum(-1).clamp(min=1e-6)
+        iam_prob = iam_prob / normalizer[:, :, None]
         # aggregate features: BxCxHxW -> Bx(HW)xC
         inst_features = torch.bmm(
             iam_prob, features.view(B, C, -1).permute(0, 2, 1))
-        normalizer = iam_prob.sum(-1).clamp(min=1e-6)
-        inst_features = inst_features / normalizer[:, :, None]
         # predict classification & segmentation kernel & objectness
         pred_logits = self.cls_score(inst_features)
         pred_kernel = self.mask_kernel(inst_features)
@@ -226,11 +226,12 @@ class GroupInstanceBranch(nn.Module):
         C = features.size(1)
         # BxNxHxW -> BxNx(HW)
         iam_prob = iam_prob.view(B, N, -1)
+        normalizer = iam_prob.sum(-1).clamp(min=1e-6)
+        iam_prob = iam_prob / normalizer[:, :, None]
+
         # aggregate features: BxCxHxW -> Bx(HW)xC
         inst_features = torch.bmm(
             iam_prob, features.view(B, C, -1).permute(0, 2, 1))
-        normalizer = iam_prob.sum(-1).clamp(min=1e-6)
-        inst_features = inst_features / normalizer[:, :, None]
 
         inst_features = inst_features.reshape(
             B, 4, N // self.num_groups, -1).transpose(1, 2).reshape(B, N // self.num_groups, -1)

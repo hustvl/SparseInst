@@ -235,7 +235,6 @@ python tools/train_net.py --config-file configs/sparse_inst_r50vd_dcn_giam_aug.y
 <!-- ### ONNX Export -->
 
 
-
 ### Custom Training of SparseInst
 
 1. We suggest you convert your custom datasets into the `COCO` format, which enables the usage of the default dataset mappers and loaders. You may find more details in the [official guide of detectron2](https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#register-a-coco-format-dataset).
