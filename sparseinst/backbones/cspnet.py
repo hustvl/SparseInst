@@ -3,7 +3,8 @@ from functools import partial
 import torch
 import torch.nn as nn
 
-from timm.models.layers import ConvBnAct, DropPath, AvgPool2dSame, create_attn
+from timm.models.layers import create_conv2d, create_act_layer
+from timm.models.layers import DropPath, AvgPool2dSame, create_attn
 
 
 from detectron2.layers import ShapeSpec, FrozenBatchNorm2d
@@ -83,6 +84,39 @@ model_cfgs = dict(
         )
     )
 )
+
+class ConvBnAct(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size=1, stride=1, padding='', dilation=1, groups=1,
+                 bias=False, apply_act=True, norm_layer=nn.BatchNorm2d, act_layer=nn.ReLU, aa_layer=None,
+                 drop_block=None):
+        super(ConvBnAct, self).__init__()
+        use_aa = aa_layer is not None
+
+        self.conv = create_conv2d(
+            in_channels, out_channels, kernel_size, stride=1 if use_aa else stride,
+            padding=padding, dilation=dilation, groups=groups, bias=bias)
+
+        # NOTE for backwards compatibility with models that use separate norm and act layer definitions
+        self.bn = norm_layer(out_channels)
+        self.act = act_layer()
+        self.aa = aa_layer(
+            channels=out_channels) if stride == 2 and use_aa else None
+
+    @property
+    def in_channels(self):
+        return self.conv.in_channels
+
+    @property
+    def out_channels(self):
+        return self.conv.out_channels
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.bn(x)
+        x = self.act(x)
+        if self.aa is not None:
+            x = self.aa(x)
+        return x
 
 
 def create_stem(
@@ -394,8 +428,7 @@ def build_cspnet_backbone(cfg, input_shape=None):
     if norm_name == "FrozenBN":
         norm = FrozenBatchNorm2d
     elif norm_name == "SyncBN":
-        from detectron2.layers import NaiveSyncBatchNorm
-        norm = NaiveSyncBatchNorm
+        norm = nn.SyncBatchNorm
     else:
         norm = nn.BatchNorm2d
 

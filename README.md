@@ -40,6 +40,8 @@ Tianheng Cheng, <a href="https://xinggangw.info/">Xinggang Wang</a><sup><span>&#
 
 `This project is under active development, please stay tuned!` &#9749;
 
+* `[2022-10-31]`: We release the models & weights for the [`CSP-DarkNet53`](configs/sparse_inst_cspdarknet53_giam.yaml) backbone. Which is a strong baseline with highly-competitve inference speed and accuracy.
+
 * `[2022-10-19]`: We provide the implementation and inference code based on [MindSpore](https://www.mindspore.cn/), a nice and efficient Deep Learning framework. Thanks [Ruiqi Wang](https://github.com/RuiqiWang00) for this kind contribution!
 
 * `[2022-8-9]`: We provide the FLOPs counter [`get_flops.py`](./tools/get_flops.py) to obtain the FLOPs/Parameters of SparseInst. This update also includes some bugfixs.
@@ -85,12 +87,11 @@ All models are trained on MS-COCO *train2017*.
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 608 | &#10003; | 37.4 | 37.9 | 40.0  | [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)|
 | [SparseInst (G-IAM)](configs/sparse_inst_r50vd_dcn_giam_aug.yaml) | [R-50-vd-DCN](https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth) | 640 | &#10003; | 37.7 | 38.1 | 39.3 |  [model](https://drive.google.com/file/d/1clYPdCNrDNZLbmlAEJ7wjsrOLn1igOpT/view?usp=sharing)| 
 
-<!-- #### SparseInst with other backbones
+#### SparseInst with other backbones
 
 | model | backbone | input | AP<sup>val</sup> |  AP  | FPS | weights |
 | :---- | :------ | :---: | :--------------: | :--: | :-: | :-----: |
-| SparseInst (G-IAM) | [VoVNet]() | 640 | - | - | - | [model]() |
-| SparseInst (G-IAM) | [CSPDarkNet]() | 640 | - | -| - | [model]() |  -->
+| SparseInst (G-IAM) | [CSPDarkNet](configs/sparse_inst_cspdarknet53_giam.yaml) | 640 | 35.1 | -| - | [model](https://drive.google.com/file/d/1rcUJWUbusM216Zbtmo_xB774jdjb3qSt/view?usp=sharing) |
 
 #### Larger models
 
@@ -238,11 +239,8 @@ python tools/train_net.py --config-file configs/sparse_inst_r50vd_dcn_giam_aug.y
 ### Custom Training of SparseInst
 
 1. We suggest you convert your custom datasets into the `COCO` format, which enables the usage of the default dataset mappers and loaders. You may find more details in the [official guide of detectron2](https://detectron2.readthedocs.io/en/latest/tutorials/datasets.html#register-a-coco-format-dataset).
-
 2. You need to check whether `NUM_CLASSES` and `NUM_MASKS` should be changed according to your scenarios or tasks.
-
 3. Change the configurations accordingly.
-
 4. After finishing the above procedures, you can easily train SparseInst by `train_net.py`.
 
 

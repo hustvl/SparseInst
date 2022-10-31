@@ -6,7 +6,9 @@ MODEL:
   SPARSE_INST:
     ENCODER:
       IN_FEATURES: ["csp2", "csp3", "csp4"]
+    DECODER:
+      NAME: "GroupIAMSoftDecoder"
   CSPNET:
-    NAME: "darknet53"
+    NAME: "cspdarknet53"
     OUT_FEATURES: ["csp2", "csp3", "csp4"]
 OUTPUT_DIR: "output/sparse_inst_cspdarknet53_giam"
