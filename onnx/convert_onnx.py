@@ -1,5 +1,6 @@
 import math
 import argparse
+import sys
 
 import torch
 from torch import nn
@@ -11,6 +12,7 @@ from detectron2.modeling import build_model
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
 
+sys.path.append(".")
 from sparseinst import add_sparse_inst_config
 
 
